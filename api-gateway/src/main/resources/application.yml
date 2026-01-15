@@ -1,0 +1,59 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_FIRST
+      
+      routes:
+        # SERVIÇOS EM NODE.JS (Porta 8085)
+        # -----------------------------------------------------------
+        # Rota de Autenticação (Login/Register)
+        - id: node-auth-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/auth/**
+
+        # Rota do Carrinho
+        - id: node-cart-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/cart/**
+
+        # Rota de Produtos
+        - id: node-product-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/products/**
+
+
+        # SERVIÇOS EM JAVA SPRING BOOT (Porta 8083)
+        # -----------------------------------------------------------
+        # Rota de Interações e Recomendações
+        - id: java-interaction-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/interactions/**, /api/recommendations/**
+
+
+        # SERVIÇO EM PYTHON (Porta 8000)
+        # -----------------------------------------------------------
+        - id: ml-recommender-service
+          uri: http://localhost:8000
+          predicates:
+            - Path=/recommend/**, /profile/**, /interact/**
+
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:5173"
+              - "http://localhost:5174"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true

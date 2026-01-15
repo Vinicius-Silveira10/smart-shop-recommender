@@ -1,0 +1,9 @@
+### Registrar Interação via Gateway
+POST http://localhost:8082/interact
+Content-Type: application/json
+
+{
+  "user_id": 1,
+  "product_id": 1,
+  "action_type": "click"
+}

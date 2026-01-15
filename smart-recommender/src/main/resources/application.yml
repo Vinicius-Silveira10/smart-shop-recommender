@@ -1,0 +1,47 @@
+server:
+  # CORREÇÃO: Deve ser 8083 para casar com a rota do API Gateway
+  port: 8083 
+
+spring:
+  application:
+    name: smart-recommender
+  
+  # CONEXÃO COM O BANCO (DOCKER)
+  datasource:
+    url: jdbc:postgresql://localhost:5433/smart-recommender-db
+    username: vinicius
+    password: 123456
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA / HIBERNATE
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+# CONFIGURAÇÃO ML (MOTOR DE IA)
+# Necessário para o MLClient.java não dar erro 503
+ml:
+  service:
+    url: http://localhost:8000
+
+# CONFIGURAÇÕES AWS (LOCALSTACK)
+aws:
+  region: us-east-1
+  accessKey: dummy-key
+  secretKey: dummy-secret
+  endpoint: http://localhost:4566
+  s3:
+    bucket: smart-recommender-bucket
+
+# LOGS PARA DEBUG
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG

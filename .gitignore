@@ -1,0 +1,29 @@
+# --- DEPENDÊNCIAS E AMBIENTES ---
+node_modules/
+.venv/
+.env
+
+# --- JAVA (Spring Boot) ---
+target/
+**/target/
+*.class
+**/application.properties
+
+# --- BANCO DE DADOS E ORM ---
+prisma/
+generated/
+*.log
+*_error.log
+
+# --- CONFIGURAÇÕES DE IDE ---
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# --- ARQUIVOS DE SISTEMA ---
+.DS_Store
+Thumbs.db
